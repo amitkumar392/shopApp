@@ -1,0 +1,6 @@
+{
+  "name": "shopApp",
+  "short_name": "shopApp",
+  "start_url": "/",
+  "display": "standalone"
+}

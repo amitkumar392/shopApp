@@ -1,0 +1,36 @@
+{
+  "users": [
+    
+    
+  ],
+  "items": [
+    {
+      "productName": "iphone",
+      "description": "iphone 11 pro with 256gb storage",
+      "price": 112000,
+      "userType": "Priority",
+      "id": 1
+    },
+    {
+      "productName": "macbook ",
+      "description": "macbook pro with 256gb storage",
+      "price": 250000,
+      "userType": "Priority",
+      "id": 2
+    },
+    {
+      "productName": "jeans",
+      "description": "levis jeans ",
+      "price": 3000,
+      "userType": "Normal",
+      "id": 3
+    },
+    {
+      "productName": "shirt",
+      "description": "roadster premium shirt",
+      "price": 1400,
+      "userType": "Normal",
+      "id": 4
+    }
+  ]
+}
