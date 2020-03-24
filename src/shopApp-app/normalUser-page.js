@@ -7,12 +7,16 @@ import '@polymer/app-route/app-location.js';
 
 
 /**
-* @customElement
-* @polymer
-*/
+ * Define an element class
+ * @customElement
+ * @polymer
+ */
 class NormalUser extends PolymerElement {
-static get template() {
-return html`
+    /**
+     * Define the element's template
+     */
+    static get template() {
+        return html`
 <style>
     :host {
         display: block;
@@ -98,12 +102,13 @@ return html`
         margin: 20px;
         color: white;
     }
+    #buttons{
+        position:absolute;
+        top:50px;
+        float:right;
+      }
 
-    #logout {
-        background-color: #000000;
-        grid-row: 1/2;
-        grid-column: 4/5;
-    }
+    
 </style>
 
 <app-location route={{route}}></app-location>
@@ -111,11 +116,11 @@ return html`
     <div id="heading">
         <h1>Shopping</h1>
     </div>
-    <div id="logout">
-        <paper-button class="custom indigo" on-click="_handleLogout"><a name="login-page"
-                href="[[rootPath]]login-page">Logout</a></paper-button>
-    </div>
-</header>
+   </header>
+   <div id='buttons'>
+   <paper-button class="custom indigo" id='login' on-click="_handleLogout"><a name="login-page"
+           href="[[rootPath]]login-page">Logout</a></paper-button>
+           </div>
 <h1> Product List for Normal User</h1>
 <table>
     <tr>
@@ -136,8 +141,6 @@ return html`
     </template>
 </table>
 
-<paper-button class="custom indigo" on-click="_handleLogout"><a name="login-page"
-        href="[[rootPath]]login-page">Logout</a></paper-button>
 
 <iron-ajax id="ajax" on-response="_handleResponse" handle-as="json" content-type='application/json'>
 </iron-ajax>
@@ -146,52 +149,69 @@ return html`
 
 
 `;
+    }
+
+    /**
+     * Define public API properties
+     */
+    static get properties() {
+        return {
+            respCheck: Array,
+            details: {
+                type: Object
+            }
+        };
+    }
+    /**
+     * getting list of all the items based on user type
+     */
+    connectedCallback() {
+        super.connectedCallback();
+        this.customer = JSON.parse(sessionStorage.getItem('customer'));
+        console.log(this.customer.userType);
+        this._makeAjax(`http://localhost:3000/items?userType=${this.customer.userType}`, 'get', null)
+    }
+
+
+    /**
+     * getting response from server and storing user data in session storage
+     * @param {*} event 
+     */
+    _handleResponse(event) {
+        console.log(event.detail.response);
+        this.data = event.detail.response;
+
+    }
+
+
+    /**
+       * calling main ajax call method 
+       * @param {String} url 
+       * @param {String} method 
+       * @param {Object} postObj 
+    */
+    _makeAjax(url, method, postObj) {
+        const ajax = this.$.ajax;
+        ajax.method = method;
+        ajax.url = url;
+        ajax.body = postObj ? JSON.stringify(postObj) : undefined;
+        ajax.generateRequest();
+    }
+
+
+    /**
+     * clear session storage and route to login page
+     */
+    _handleLogout() {
+        sessionStorage.clear();
+        this.set('route.path', './login-page');
+        window.location.reload();
+
+    }
+
+
 }
-static get properties() {
-return {
-respCheck: Array,
-details: {
-type: Object
-}
-};
-}
-
-
-//getting list of all the items
-connectedCallback() {
-super.connectedCallback();
-this.customer = JSON.parse(sessionStorage.getItem('customer'));
-console.log(this.customer.userType);
-this._makeAjax(`http://localhost:3000/items?userType=${this.customer.userType}`, 'get', null)
-}
-
-
-_handleResponse(event) {
-console.log(event.detail.response);
-this.data = event.detail.response;
-
-}
-
-
-
-_makeAjax(url, method, postObj) {
-const ajax = this.$.ajax;
-ajax.method = method;
-ajax.url = url;
-ajax.body = postObj ? JSON.stringify(postObj) : undefined;
-ajax.generateRequest();
-}
-
-_handleLogout() {
-
-sessionStorage.clear();
-
-this.set('route.path', './login-page');
-window.location.reload();
-
-}
-
-
-}
-
+/**
+ * Register the element with the browser
+ */
 window.customElements.define('normaluser-page', NormalUser);

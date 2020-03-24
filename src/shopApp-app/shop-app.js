@@ -5,11 +5,15 @@ import '@polymer/iron-pages/iron-pages.js';
 import { setRootPath } from '@polymer/polymer/lib/utils/settings.js'
 
 /**
+ * Define an element class
  * @customElement
  * @polymer
  */
 setRootPath(MyAppGlobals.rootPath)
 class ShopApp extends PolymerElement {
+  /**
+     * Define the element's template
+     */
   static get template() {
     return html`
       <style>
@@ -32,6 +36,10 @@ class ShopApp extends PolymerElement {
     </iron-pages>
     `;
   }
+
+  /**
+   * Define public API properties
+   */
   static get properties() {
     return {
       page: {
@@ -44,7 +52,9 @@ class ShopApp extends PolymerElement {
     };
   }
 
-  // complex observer
+  /**
+   * complex observer
+   */
   static get observers() {
     return ['_pageChanged(routeData.page)']
   }
@@ -53,7 +63,10 @@ class ShopApp extends PolymerElement {
     this.page = page || 'login-page';
   }
 
-  // method of simple observer to change the page according the page name , calling the required page
+  /**
+   * method of simple observer to change the page according the page name , calling the required page
+   * @param {*} page 
+   */
   _changePage(page) {
     switch (page) {
       case ('registration-page'):
@@ -82,5 +95,7 @@ class ShopApp extends PolymerElement {
     }
   }
 }
-
+/**
+ * Register the element with the browser
+ */
 window.customElements.define('shop-app', ShopApp);

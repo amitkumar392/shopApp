@@ -7,12 +7,16 @@ import '@polymer/paper-button/paper-button.js';
 
 
 /**
-* @customElement
-* @polymer
-*/
+ * Define an element class
+ * @customElement
+ * @polymer
+ */
 class DashboardPage extends PolymerElement {
-    static get template() {
-        return html`
+  /**
+     * Define the element's template
+     */
+  static get template() {
+    return html`
 <style>
   :host {
     display: block;
@@ -86,10 +90,10 @@ class DashboardPage extends PolymerElement {
             margin: 20px;
             color:white;
         }
-        #logout{
-            background-color: #000000;
-            grid-row: 1/2;
-            grid-column: 4/5;
+        #buttons{
+          position:absolute;
+          top:30px;
+          float:right;
         }
   
 
@@ -98,8 +102,8 @@ class DashboardPage extends PolymerElement {
 <app-location route={{route}}></app-location>
 <header>
     <div id="heading"><h1>Shopping</h1></div>
-    <div id="logout">
-        <paper-button class="custom indigo" on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
+    <div id="buttons">
+        <paper-button class="custom indigo" id='login' on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
     </div>
 </header>
 <h1> Product List for Priority User</h1>
@@ -130,49 +134,70 @@ class DashboardPage extends PolymerElement {
 
 
 `;
-    }
-    static get properties() {
-        return {
-            data: Array,
-            details: {
-                type: Object
-            }
-        };
-    }
+  }
 
-    //getting list of all the items
-    connectedCallback() {
-        super.connectedCallback();
-        this._makeAjax(`http://localhost:3000/items`, 'get', null)
-    }
+  /**
+   * Define public API properties
+   */
+  static get properties() {
+    return {
+      data: Array,
+      details: {
+        type: Object
+      }
+    };
+  }
 
 
-    _handleResponse(event) {
-        console.log(event.detail.response);
-        this.data = event.detail.response;
+  /**
+   * getting list of all the items
+   */
+  connectedCallback() {
+    super.connectedCallback();
+    this._makeAjax(`http://localhost:3000/items`, 'get', null)
+  }
 
-    }
+
+  /**
+   * getting response from server and storing user data and id in session storage
+   * @param {*} event 
+   */
+  _handleResponse(event) {
+    console.log(event.detail.response);
+    this.data = event.detail.response;
+
+  }
 
 
+  /**
+    * calling main ajax call method 
+    * @param {String} url 
+    * @param {String} method 
+    * @param {Object} postObj 
+    */
+  _makeAjax(url, method, postObj) {
+    const ajax = this.$.ajax;
+    ajax.method = method;
+    ajax.url = url;
+    ajax.body = postObj ? JSON.stringify(postObj) : undefined;
+    ajax.generateRequest();
+  }
 
-    _makeAjax(url, method, postObj) {
-        const ajax = this.$.ajax;
-        ajax.method = method;
-        ajax.url = url;
-        ajax.body = postObj ? JSON.stringify(postObj) : undefined;
-        ajax.generateRequest();
-    }
+  /**
+   * clear session storage and route to login page
+   */
+  _handleLogout() {
 
-    _handleLogout() {
+    sessionStorage.clear();
+    this.set('route.path', './login-page');
+    window.location.reload();
 
-        sessionStorage.clear();
-
-        this.set('route.path', './login-page');
-        window.location.reload();
-
-    }
+  }
 
 
 }
 
+/**
+ * Register the element with the browser
+ */
 window.customElements.define('dashboard-page', DashboardPage);

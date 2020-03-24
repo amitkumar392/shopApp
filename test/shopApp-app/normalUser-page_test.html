@@ -14,7 +14,7 @@
     <script src="../../node_modules/sinon/pkg/sinon.js"></script>
     <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
 
-    <script type="module" src="../../src/shopApp-app/login-page.js"></script>
+    <script type="module" src="../../src/shopApp-app/normalUser-page.js"></script>
     <script>
         window.MyAppGlobals={rootPath:'/'};
       </script>
@@ -22,9 +22,9 @@
 
 <body>
 
-    <test-fixture id="loginPageFixture">
+    <test-fixture id="NormalPageFixture">
         <template>
-            <login-page></login-page>
+            <normaluser-page></normaluser-page>
         </template>
     </test-fixture>
 
@@ -37,7 +37,7 @@
             describe('When component is initailised', function () {
 
                 beforeEach(function () {
-                    element = fixture('loginPageFixture');
+                    element = fixture('NormalPageFixture');
                     elementShadowRoot = element.shadowRoot;
                 });
 
@@ -46,36 +46,36 @@
                     expect(elementShadowRoot).to.be.exist;
                 });
 
-                it('should render iron-form component', function () {
-                    let ironForm = elementShadowRoot.querySelector('#loginForm')
-                    expect(ironForm).to.be.exist;
-                    expect(ironForm).to.not.null;
-                });
+                // it('should render iron-form component', function () {
+                //     let ironForm = elementShadowRoot.querySelector('#loginForm')
+                //     expect(ironForm).to.be.exist;
+                //     expect(ironForm).to.not.null;
+                // });
 
-                it('should render emailid field', function () {
-                    let email = elementShadowRoot.querySelector('#emailId')
-                    expect(email).to.be.exist;
-                    expect(email).to.not.null;
-                });
+                // it('should render emailid field', function () {
+                //     let email = elementShadowRoot.querySelector('#emailId')
+                //     expect(email).to.be.exist;
+                //     expect(email).to.not.null;
+                // });
 
-                it('should render password field', function () {
-                    let password = elementShadowRoot.querySelector('#password')
-                    expect(password).to.be.exist;
-                    expect(password).to.not.null;
+                // it('should render password field', function () {
+                //     let password = elementShadowRoot.querySelector('#password')
+                //     expect(password).to.be.exist;
+                //     expect(password).to.not.null;
 
-                });
+                // });
 
-                it('should render Login button', function () {
-                    let LoginBtn = elementShadowRoot.querySelector('#btn')
-                    expect(LoginBtn).to.be.exist;
-                    expect(LoginBtn).to.not.null;
-                    expect(LoginBtn.innerHTML).to.be.equal('Login');
-                });
+                // it('should render Login button', function () {
+                //     let LoginBtn = elementShadowRoot.querySelector('#btn')
+                //     expect(LoginBtn).to.be.exist;
+                //     expect(LoginBtn).to.not.null;
+                //     expect(LoginBtn.innerHTML).to.be.equal('Login');
+                // });
 
-                it('should render Register button', function () {
-                    let RegisterBtn = elementShadowRoot.querySelector('#register')
-                    expect(RegisterBtn).to.be.exist;
-                    expect(RegisterBtn).to.not.null;
+                it('should render Logout button', function () {
+                    let LogoutBtn = elementShadowRoot.querySelector('#login')
+                    expect(LogoutBtn).to.be.exist;
+                    expect(LogoutBtn).to.not.null;
 
                 });
 
@@ -124,32 +124,32 @@
                         });
                     });
 
-                    it('should respond with correct response', function (done) {
-                        ajax = elementShadowRoot.querySelector("iron-ajax");
+                    // it('should respond with correct response', function (done) {
+                    //     ajax = elementShadowRoot.querySelector("iron-ajax");
 
-                        request = ajax.generateRequest();
-                        server.respondWith(
-                            'POST',
-                            'http://localhost:3000/users', [
-                            200,
-                            responseHeaders.json,
-                            '[{name: 13123}]'
-                        ]
-                        );
-                        flush(function () {
-                            console.log(request);
-                            debugger;
-                            // expect(request.response).to.be.ok;
-                            // expect(request.response).to.be.equal('object');
+                    //     request = ajax.generateRequest();
+                    //     server.respondWith(
+                    //         'POST',
+                    //         'http://localhost:3000/users', [
+                    //         200,
+                    //         responseHeaders.json,
+                    //         '[{name: 13123}]'
+                    //     ]
+                    //     );
+                    //     flush(function () {
+                    //         console.log(request);
+                    //         debugger;
+                    //         // expect(request.response).to.be.ok;
+                    //         // expect(request.response).to.be.equal('object');
 
-                            server.respond();
-                            done();
-                        });
+                    //         server.respond();
+                    //         done();
+                    //     });
 
-                        // expect(request.response.success).to.be.equal(true);
+                    //     // expect(request.response.success).to.be.equal(true);
 
 
-                    });
+                    // });
 
 
 

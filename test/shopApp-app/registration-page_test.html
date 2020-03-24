@@ -14,7 +14,7 @@
     <script src="../../node_modules/sinon/pkg/sinon.js"></script>
     <script src="../../node_modules/wct-mocha/wct-mocha.js"></script>
 
-    <script type="module" src="../../src/shopApp-app/login-page.js"></script>
+    <script type="module" src="../../src/shopApp-app/registration-page.js"></script>
     <script>
         window.MyAppGlobals={rootPath:'/'};
       </script>
@@ -22,9 +22,9 @@
 
 <body>
 
-    <test-fixture id="loginPageFixture">
+    <test-fixture id="RegistrationPageFixture">
         <template>
-            <login-page></login-page>
+            <registration-page></registration-page>
         </template>
     </test-fixture>
 
@@ -37,7 +37,7 @@
             describe('When component is initailised', function () {
 
                 beforeEach(function () {
-                    element = fixture('loginPageFixture');
+                    element = fixture('RegistrationPageFixture');
                     elementShadowRoot = element.shadowRoot;
                 });
 
@@ -52,8 +52,32 @@
                     expect(ironForm).to.not.null;
                 });
 
+                
+                it('should render name field', function () {
+                    let name = elementShadowRoot.querySelector('#name')
+                    expect(name).to.be.exist;
+                    expect(name).to.not.null;
+                });
+
+                
+                it('should render user type field', function () {
+                    let userType = elementShadowRoot.querySelector('#userType')
+                    expect(userType).to.be.exist;
+                    expect(userType).to.not.null;
+                });
+
+
+                
+                it('should render phone number field', function () {
+                    let phoneNo = elementShadowRoot.querySelector('#phoneNo')
+                    expect(phoneNo).to.be.exist;
+                    expect(phoneNo).to.not.null;
+                });
+
+
+
                 it('should render emailid field', function () {
-                    let email = elementShadowRoot.querySelector('#emailId')
+                    let email = elementShadowRoot.querySelector('#email')
                     expect(email).to.be.exist;
                     expect(email).to.not.null;
                 });
@@ -65,19 +89,13 @@
 
                 });
 
-                it('should render Login button', function () {
-                    let LoginBtn = elementShadowRoot.querySelector('#btn')
-                    expect(LoginBtn).to.be.exist;
-                    expect(LoginBtn).to.not.null;
-                    expect(LoginBtn.innerHTML).to.be.equal('Login');
-                });
-
                 it('should render Register button', function () {
-                    let RegisterBtn = elementShadowRoot.querySelector('#register')
+                    let RegisterBtn = elementShadowRoot.querySelector('#registration')
                     expect(RegisterBtn).to.be.exist;
                     expect(RegisterBtn).to.not.null;
-
+                    expect(RegisterBtn.innerHTML).to.be.equal('Register');
                 });
+
 
                 it('should render iron-ajax component', function () {
                     let ironAjax = elementShadowRoot.querySelector('#ajax')
@@ -91,7 +109,7 @@
                 //     expect(element.userList.length).to.be.equal(0);
                 // });
 
-                describe('AND When Login button is clicked', function () {
+                describe('AND When Register button is clicked', function () {
                     let submitSpy, submitStub;
                     var ajax;
                     var request;

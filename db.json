@@ -1,7 +1,38 @@
 {
   "users": [
-    
-    
+    {
+      "userName": "amit",
+      "userType": "Normal",
+      "phoneNo": "123",
+      "emailId": "a@g.c",
+      "password": "123",
+      "id": 1
+    },
+
+    {
+      "userName": "ayushi",
+      "userType": "Priority",
+      "phoneNo": "12345",
+      "emailId": "ayushi@gmail.com",
+      "password": "123",
+      "id": 3
+    },
+    {
+      "userName": "nitish",
+      "userType": "Priority",
+      "phoneNo": "",
+      "emailId": "nitish@gmail.com",
+      "password": "123",
+      "id": 4
+    },
+    {
+      "userName": "raju",
+      "userType": "Priority",
+      "phoneNo": "345",
+      "emailId": "raju@gmail.com",
+      "password": "123",
+      "id": 5
+    }
   ],
   "items": [
     {
