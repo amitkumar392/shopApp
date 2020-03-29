@@ -16,7 +16,7 @@ import '@polymer/iron-icons/iron-icons.js';
  * @customElement
  * @polymer
  */
-class RegistrationPage extends PolymerElement {
+class AdminPage extends PolymerElement {
   /**
      * Define the element's template
   */
@@ -45,7 +45,7 @@ class RegistrationPage extends PolymerElement {
             margin-top:70px;
             border-radius:20px;
         }
-        #registration{
+        #add{
           background-color:  #ff7a22;
           color: white;
           text-align:center;
@@ -56,50 +56,69 @@ class RegistrationPage extends PolymerElement {
         h2{
           text-align:center;
         }
+        .custom{
+            left:1100px;
+          }
+          paper-button {
+            text-align: center;
+            background-color:black;
+            color:white;
+          }
+
+          #buttons{
+            position:absolute;
+            top:30px;
+            float:right;
+          }
+          a{
+            text-decoration:none;
+            color:white;
+          }
        
 
       </style>
       <header>
         <div id="heading"><h1>Shopping</h1></div>
+        <div id="buttons">
+        <paper-button class="custom" id='login' on-click="_handleLogout"><a name="login-page" href="[[rootPath]]login-page">Logout</a></paper-button>
+
+    </div>
     </header>
       <app-location route="{{route}}">
       </app-location>
       <iron-form id="loginForm">
       <form>
 
-      <h2>Registration Page </h2>
+      <h2>Admin Page </h2>
+     
+<paper-input label="Product Code" id="productCode" type="text" name="product code" maxlength="10" allowed-pattern=[0-9] auto-validate required error-message="Need Product Code">
+</paper-input>
 
-      <paper-input type="text" label="Enter name" id="name"auto-validate required error-message="Enter Name"><iron-icon slot="suffix" icon="icons:account-circle"></iron-icon>
-      </paper-input>
+      <paper-input type="text" label="Product Name" id="productName" auto-validate required error-message="Enter Product Name"></paper-input>
+      <paper-input type="text" label="Product Description" id="productDes" auto-validate required error-message="Need Product Description"></paper-input>
+      <paper-input label="Price" id="price" type="text" name="price" maxlength="10" allowed-pattern=[0-9] auto-validate required error-message="Need Price Details"></paper-input>
 
-      <paper-dropdown-menu label="User Type" id="userType" required  error-message="Enter User Type">
+
+    <paper-dropdown-menu label="Priority" id="priority" required  error-message="Enter Priority Type">
       <paper-listbox slot="dropdown-content" selected="0">
-        <paper-item>Prime</paper-item>
-        <paper-item>Normal</paper-item>
-        <paper-item>Admin</paper-item>
+        <paper-item>High</paper-item>
+        <paper-item>Low</paper-item>
       </paper-listbox>
     </paper-dropdown-menu>
 
+      <paper-input label=" Product Quantity" id="quantity" type="text" name="quantity" maxlength="3" allowed-pattern=[0-9] auto-validate required error-message="Need Quantity Details"></paper-input>
 
 
 
-      <paper-input label="Phone No" id="phoneNo" type="text" name="phoneNo" auto-validate required maxlength="10" allowed-pattern=[0-9] auto-validate><iron-icon slot="suffix" icon="icons:settings-phone"></iron-icon>
-      </paper-input>
-
-      <paper-input type="text" label="Address" id="address" auto-validate required error-message="Address field is required"><iron-icon slot="suffix" icon="icons:home"></iron-icon>
-      </paper-input>
-
-    
-      <paper-input type="email" label="Enter email" id="email" auto-validate required error-message="Enter Email"><iron-icon slot="suffix" icon="mail"></iron-icon>
-      </paper-input>
-
-      <paper-input label="Password" id="password" type="password" value={{password}} name="password" auto-validate required error-message="enter correct password" ><iron-icon slot="suffix" icon="lock"></iron-icon>
-      </paper-input>
-
-      <paper-button type="submit" id="registration" on-click="_handleRegister">Register</paper-button></div>
-      <div id="horizontal"><sub> Exiting user ?<paper-button id="login" on-click="_handleLogin"><a name="login-page" href="[[rootPath]]login-page">Login</a></paper-button></sub><div>
+      <paper-button type="submit" id="add" on-click="_handleAdd">Add</paper-button></div>
       </form>
       <iron-form>
+
+      </br>
+
+
+     
+
       <paper-toast text={{message}}  class="fit-bottom" id="toast"></paper-toast>
       
       <iron-ajax id="ajax" on-response="_handleResponse" handle-as="json" content-type='application/json'>
@@ -113,6 +132,10 @@ class RegistrationPage extends PolymerElement {
    */
   static get properties() {
     return {
+        data:{
+            type:Array,
+            value:[]
+        }
 
     };
   }
@@ -120,16 +143,18 @@ class RegistrationPage extends PolymerElement {
   /**
    * posting user data into database
    */
-  _handleRegister() {
-    let userName = this.$.name.value;
-    let userType = this.$.userType.value;
-    let email = this.$.email.value;
-    let password = this.$.password.value;
-    let phoneNo = parseInt(this.$.phoneNo.value);
-    let address = this.$.address.value;
-    let postObj = { userName, userType,email,password,phoneNo,address};
+  _handleAdd() {
+      
+    let productCode = this.$.productCode.value;
+    let productName = this.$.productName.value;
+    let description = this.$.productDes.value;
+    let price = parseInt(this.$.price.value);
+    let priority = this.$.priority.value;
+    let quantity = parseInt(this.$.quantity.value);
+
+    let postObj = { productCode,productName,description,price,priority,quantity};
     console.log(postObj);
-    this._makeAjax(`http://localhost:9091/shopping/users`,"post",postObj);
+    this._makeAjax(`http://localhost:9091/shopping/products`,"post",postObj);
     console.log('dfd');
   }
 
@@ -141,11 +166,11 @@ class RegistrationPage extends PolymerElement {
   _handleResponse(event) {
     console.log('abc');
     console.log(event.detail.response);
+    this.data=event.detail.response;
     console.log('xyz');
-    this.message = "Registration is successful";
+    this.message = "data added successfully";
     this.$.toast.open();
-    confirm('Registration is successful');
-    this.set('route.path', './login-page');
+    // this.set('route.path', './login-page');
 
   }
 
@@ -169,4 +194,4 @@ class RegistrationPage extends PolymerElement {
 /**
  * Register the element with the browser
  */
-window.customElements.define('registration-page', RegistrationPage);
+window.customElements.define('admin-page', AdminPage);

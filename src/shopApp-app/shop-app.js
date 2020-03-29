@@ -31,7 +31,8 @@ class ShopApp extends PolymerElement {
       <registration-page name="registration-page"></registration-page>
       <login-page name="login-page"></login-page>
       <dashboard-page name="dashboard-page"></dashboard-page>
-      <normaluser-page name="normaluser-page"></normaluser-page>
+      <admin-page name="admin-page"></admin-page>
+      <order-page name="order-page"></order-page>
 
     </iron-pages>
     `;
@@ -85,12 +86,18 @@ class ShopApp extends PolymerElement {
           import('./dashboard-page.js');
           break;
         }
-
-      case ('normaluser-page'):
+      case ('admin-page'):
         {
-          import('./normaluser-page.js');
+          import('./admin-page.js');
           break;
         }
+  
+        case ('order-page'):
+          {
+            import('./order-page.js');
+            break;
+          }
+
 
     }
   }
